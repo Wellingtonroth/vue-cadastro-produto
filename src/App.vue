@@ -7,13 +7,13 @@
     </nav>
 
     <div class="container">
-      <form>
+      <form @submit.prevent="salvar">
         <label>Nome</label>
-        <input type="text" placeholder="Nome">
+        <input type="text" placeholder="Nome" v-model="produto.nome">
         <label>Quantidade</label>
-        <input type="number" placeholder="QTD">
+        <input type="number" placeholder="QTD" v-model="produto.quantidade">
         <label>Valor</label>
-        <input type="text" placeholder="Valor">
+        <input type="text" placeholder="Valor" v-model="produto.valor">
 
         <button class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
       </form>
@@ -54,6 +54,11 @@ import Produto from './services/produtos'
 export default {
   data() {
     return {
+      produto: {
+        nome: '',
+        quantidade: '',
+        valor: '',
+      },
       produtos: []
     } 
   },
@@ -62,6 +67,14 @@ export default {
     Produto.listar().then(resposta => {
       this.produtos = resposta.data
     })
+  },
+
+  methods: {
+    salvar() {
+      Produto.salvar(this.produto).then(resposta => {
+       alert('Salvo com sucesso!')
+      })
+    }
   }
 }
 
